@@ -5,7 +5,7 @@ A single static page for monceau.com.au, built 6 Oct 2026.
 ## What's here
 
 - `index.html` – the page. Everything is plain HTML and CSS, no build step.
-- `img/` – 15 Jana Langhorst photographs (Oct 2020 shoot), resized for the web, plus the wordmark SVGs.
+- `img/` – 15 Jana Langhorst photographs (Oct 2020 shoot) and 4 Lizzie Halloran photographs (Mar 2020 launch shoot), resized for the web, plus the wordmark SVGs.
 - `fonts/` – the brand's Geometric 212 webfonts, recovered from the old Shopify theme via the Wayback Machine.
 - `artifact.html` – a copy of the page body used for the Claude preview link. Not needed for hosting.
 
