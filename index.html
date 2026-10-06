@@ -191,9 +191,9 @@ p { margin: 0; }
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: clamp(8px, 1.2vw, 16px);
 }
-.early-grid figure { margin: 0; overflow: hidden; background: var(--navy-deep); aspect-ratio: 2 / 3; }
-.early-grid figure.wide { grid-column: span 2; aspect-ratio: 4 / 3; }
-.early-grid img { width: 100%; height: 100%; object-fit: cover; }
+.early-grid figure { position: relative; margin: 0; overflow: hidden; background: var(--navy-deep); aspect-ratio: 2 / 3; }
+.early-grid figure.wide { grid-column: span 2; aspect-ratio: auto; }
+.early-grid img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
 /* ---------- closing ---------- */
 .closing {
@@ -210,6 +210,28 @@ p { margin: 0; }
 .closing .contact p { color: var(--cream-dim); }
 .closing .contact .big { font-family: var(--display); font-weight: 700; font-size: 1.35rem; color: var(--cream); line-height: 1.2; }
 .closing .contact .big a { text-decoration-color: var(--orange); }
+
+/* ---------- contact form ---------- */
+.cform { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.5rem; max-width: 30rem; }
+.cform .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+.cform label { display: flex; flex-direction: column; gap: 0.3rem; font-family: var(--display); font-weight: 400; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sky); }
+.cform input, .cform textarea {
+  font: inherit; font-size: 1rem; color: var(--cream);
+  background: var(--navy-deep); border: 1px solid var(--navy-line); border-radius: 2px;
+  padding: 0.55rem 0.7rem; width: 100%; min-width: 0;
+}
+.cform textarea { resize: vertical; min-height: 4.5rem; }
+.cform input:focus, .cform textarea:focus { outline: 2px solid var(--orange); outline-offset: 1px; border-color: var(--orange); }
+.cform .foot { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.cform button {
+  font-family: var(--display); font-weight: 700; font-size: 1rem; letter-spacing: 0.02em;
+  color: var(--navy); background: var(--cream); border: 0; border-radius: 999px;
+  padding: 0.6rem 1.4rem; cursor: pointer;
+}
+.cform button:hover { background: var(--orange); color: var(--cream); }
+.cform button:disabled { opacity: 0.6; cursor: default; }
+.cform .note { font-size: 0.95rem; color: var(--cream-dim); }
+.cform .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
 /* ---------- footer ---------- */
 footer {
@@ -244,6 +266,7 @@ footer .row { display: flex; justify-content: space-between; gap: 1rem; flex-wra
   .grid .w3 { grid-column: span 2; }
 }
 @media (max-width: 560px) {
+  .cform .row2 { grid-template-columns: 1fr; }
   .top .eyebrow { font-size: 0.68rem; }
   .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: minmax(110px, auto); }
   .grid .w4, .grid .w3, .grid .w2 { grid-column: span 2; }
@@ -356,8 +379,53 @@ footer .row { display: flex; justify-content: space-between; gap: 1rem; flex-wra
     <p class="big">Fermenting something of your own?</p>
     <p>If you’re looking for someone to can or bottle your drink, talk to our friends at CCF: <a href="mailto:sales@ccf.net.au">sales@ccf.net.au</a></p>
     <p>The archive of what we were up to lives on at <a href="https://www.instagram.com/monceau_co" rel="noopener">@monceau_co</a>.</p>
+    <form class="cform" id="contact" novalidate>
+      <p class="eyebrow">Or drop us a line</p>
+      <div class="row2">
+        <label>Name<input type="text" id="c-name" name="name" autocomplete="name" required></label>
+        <label>Email<input type="email" id="c-email" name="email" autocomplete="email" required></label>
+      </div>
+      <label>Message<textarea id="c-message" name="message" rows="3" required></textarea></label>
+      <label class="hp" aria-hidden="true">Leave this empty<input type="text" id="c-hp" name="_honey" tabindex="-1" autocomplete="off"></label>
+      <div class="foot">
+        <button type="submit" id="c-send">Send</button>
+        <p class="note" id="c-note" aria-live="polite"></p>
+      </div>
+    </form>
   </div>
 </section>
+
+<script>
+(function () {
+  var form = document.getElementById('contact');
+  if (!form) return;
+  var note = document.getElementById('c-note');
+  var btn = document.getElementById('c-send');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = document.getElementById('c-name').value.trim();
+    var email = document.getElementById('c-email').value.trim();
+    var message = document.getElementById('c-message').value.trim();
+    if (!name || !email || !message) { note.textContent = 'Please fill in all three fields.'; return; }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { note.textContent = 'That email address doesn\u2019t look right.'; return; }
+    btn.disabled = true; note.textContent = 'Sending\u2026';
+    fetch('https://formsubmit.co/ajax/47d061f372486788c5890cd717f3227b', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        name: name, email: email, message: message,
+        _honey: document.getElementById('c-hp').value,
+        _subject: 'Message from monceau.com.au', _template: 'table', _captcha: 'false', _replyto: email
+      })
+    }).then(function (r) { return r.json(); }).then(function (d) {
+      if (d && String(d.success) === 'true') { form.reset(); note.textContent = 'Sent. Thanks for writing.'; }
+      else { throw new Error(); }
+    }).catch(function () {
+      btn.disabled = false; note.textContent = 'That didn\u2019t send. Please try again in a moment.';
+    });
+  });
+})();
+</script>
 
 <footer>
   <div class="row">
