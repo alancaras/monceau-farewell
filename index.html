@@ -204,7 +204,7 @@ p { margin: 0; }
   gap: 2rem;
   align-items: start;
 }
-.closing h2 { font-size: clamp(2.4rem, 1.6rem + 3.4vw, 4.6rem); line-height: 0.95; }
+.closing h2 { font-size: clamp(2.4rem, 1.6rem + 3.4vw, 4.6rem); line-height: 0.95; align-self: end; }
 .closing h2 .dot { color: var(--orange); }
 .closing .contact { display: flex; flex-direction: column; gap: 1.1rem; max-width: var(--measure); }
 .closing .contact p { color: var(--cream-dim); }
@@ -259,6 +259,7 @@ footer .row { display: flex; justify-content: space-between; gap: 1rem; flex-wra
   .letter { grid-template-columns: 1fr; gap: 1.25rem; }
   .letter .side, .letter .text { grid-column: 1; }
   .closing { grid-template-columns: 1fr; }
+  .closing h2 { align-self: start; }
   .early-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .early-grid figure.wide { aspect-ratio: 3 / 2; }
   .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: minmax(90px, auto); }
