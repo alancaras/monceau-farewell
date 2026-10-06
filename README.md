@@ -25,4 +25,3 @@ All copy is in `index.html`. Things worth checking before it goes live:
 - The dates "2020 – 2025" (top bar and meta tags).
 - The line "Some of the drinks we created have found new homes" – name the brands and buyers if you want to.
 - The flavour lists under "What we made" were taken from the old shop's product images.
-- hello@monceau.com.au – make sure the mailbox still works, or remove that line.
