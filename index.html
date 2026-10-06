@@ -188,7 +188,7 @@ p { margin: 0; }
 .early header p { color: var(--cream-dim); max-width: 30em; }
 .early-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: clamp(8px, 1.2vw, 16px);
 }
 .early-grid figure { margin: 0; overflow: hidden; background: var(--navy-deep); aspect-ratio: 2 / 3; }
@@ -249,8 +249,7 @@ footer .row { display: flex; justify-content: space-between; gap: 1rem; flex-wra
   .grid .w4, .grid .w3, .grid .w2 { grid-column: span 2; }
   .grid .h4 { grid-row: span 3; }
   .ranges li { padding-right: 0; }
-  .early-grid { grid-template-columns: 1fr; }
-  .early-grid figure, .early-grid figure.wide { grid-column: span 1; aspect-ratio: 3 / 2; }
+  .early-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 </style>
 </head>
@@ -347,7 +346,6 @@ footer .row { display: flex; justify-content: space-between; gap: 1rem; flex-wra
   <div class="early-grid">
     <figure class="wide"><img src="img/lizzie-95.jpg" loading="lazy" alt="A lunch table with a bottle of Monceau Fuji Apple, cheese, grapes, avocado and blue linen"></figure>
     <figure><img src="img/lizzie-73.jpg" loading="lazy" alt="A bottle of Monceau and a glass on a wooden table beside a plate of cheese"></figure>
-    <figure><img src="img/lizzie-96.jpg" loading="lazy" alt="Two bottles of Monceau on a lunch table in front of a wall of ivy"></figure>
     <figure><img src="img/lizzie-100.jpg" loading="lazy" alt="A hand pours Monceau from the bottle into a small glass against a wall of ivy"></figure>
   </div>
 </section>
